@@ -1,4 +1,4 @@
-# Example-based Colorization via Dense Encoding pyramids (DEPN)
+# Example-based Colorization via Dense Encoding pyramids
 
 ![1552888570716](demo.png)
 
@@ -104,4 +104,4 @@ Please make sure the size of the grayscale image is at least `64*64`. If you wan
   }
   ```
 
-The procedures of changing the input size of the second level and over is similar to these.
+The procedures of changing the input size of the second level and over are similar to these.
