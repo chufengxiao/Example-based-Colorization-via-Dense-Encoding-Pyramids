@@ -1,8 +1,8 @@
-# Example-based Colorization via Dense Encoding pyramids
+# Example-based Colorization via Dense Encoding Pyramids
 
 ![1552888570716](demo.png)
 
-**Example-based Colorization via Dense Encoding pyramids**, Chufeng Xiao, Chu Han, Zhuming Zhang, Jing Qin, Tien-Tsin Wong, Guoqiang Han, Shengfeng He, _Computer Graphics Forum,_ 2019.
+**Example-based Colorization via Dense Encoding Pyramids**, Chufeng Xiao, Chu Han, Zhuming Zhang, Jing Qin, Tien-Tsin Wong, Guoqiang Han, Shengfeng He, _Computer Graphics Forum,_ 2019.
 
 ## Prerequisites
 
