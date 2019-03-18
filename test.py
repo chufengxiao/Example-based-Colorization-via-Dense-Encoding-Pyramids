@@ -14,12 +14,13 @@ def parse_args():
     parser.add_argument('-refer',dest='refer',help='input reference image', type=str)
     parser.add_argument('-output',dest='output',help='output colorful image', type=str)
     parser.add_argument('--gpu', dest='gpu', help='gpu id', type=int, default=0)
+    parser.add_argument('-sm_out',dest='sm_out',help='small output', type=str,default='')
     args = parser.parse_args()
     return args
 
 def generate(size):
 
-    global Tsize,img_rgb,ref_rgb,temp_small,init_level
+    global Tsize,img_rgb,ref_rgb,temp_small,init_level,sm_out
     prototxt="./models/test/DEPN_deploy_%d.prototxt"%size
     if size==init_level:
         model="./models/DEPN_init.caffemodel"
@@ -62,39 +63,49 @@ def generate(size):
         img_rgb_out = (255*np.clip(color.lab2rgb(img_lab_out),0,1)).astype('uint8')
         scipy.misc.toimage(img_rgb_out).save(output)
         print("\nGenerate successful in "+output)
+        
+        '''
+        # if you need to use the small outcome to train the higher levels, please use the codes below:
+        small_img_rgb=caffe.io.resize_image(img_rgb,(size/4,size/4))
+        small_img_lab = color.rgb2lab(small_img_rgb)
+        small_img_l = small_img_rgb[:,:,0]
+        small_img_lab_out = np.concatenate((small_img_l[:,:,np.newaxis],ab_dec),axis=2)
+        small_img_rgb_out = (255*np.clip(color.lab2rgb(small_img_lab_out),0,1)).astype('uint8')
+        scipy.misc.toimage(small_img_rgb_out).save(sm_out)
+        '''
 
     else:
         temp_small = ab_dec
 
-if __name__ == '__main__':
-    args = parse_args()
-    caffe.set_mode_gpu()
-    caffe.set_device(args.gpu)
-    gray=args.gray
-    refer=args.refer
-    output=args.output
-    pts = np.load('./resources/pts_in_hull.npy')
-    temp_small=None
-    init_level=64
+args = parse_args()
+caffe.set_mode_gpu()
+caffe.set_device(args.gpu)
+gray=args.gray
+refer=args.refer
+output=args.output
+sm_out=args.sm_out
+pts = np.load('./resources/pts_in_hull.npy')
+temp_small=None
+init_level=64
 
-    img_rgb = caffe.io.load_image(gray)
-    ref_rgb = caffe.io.load_image(refer)
+img_rgb = caffe.io.load_image(gray)
+ref_rgb = caffe.io.load_image(refer)
 
-    (H_orig,W_orig) = img_rgb.shape[:2]
+(H_orig,W_orig) = img_rgb.shape[:2]
 
-    if H_orig >= 1024 or W_orig >= 1024:
-        Tsize=1024
-    elif H_orig >= 512 or W_orig >= 512:
-        Tsize=512
-    elif H_orig >= 256 or W_orig >= 256:
-        Tsize=256
-    elif H_orig >= 128 or W_orig >= 128:
-        Tsize=128
-    else:
-        Tsize=64
+if H_orig >= 1024 or W_orig >= 1024:
+    Tsize=1024
+elif H_orig >= 512 or W_orig >= 512:
+    Tsize=512
+elif H_orig >= 256 or W_orig >= 256:
+    Tsize=256
+elif H_orig >= 128 or W_orig >= 128:
+    Tsize=128
+else:
+    Tsize=64
 
-    level=init_level
-    while(level<=Tsize):
-        generate(level)
-        level=level*2
+level=init_level
+while(level<=Tsize):
+    generate(level)
+    level=level*2
 
