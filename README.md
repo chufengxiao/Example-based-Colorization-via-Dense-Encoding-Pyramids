@@ -42,7 +42,7 @@
   make test -j8
   ```
 
-### Add Interface Files into Setting
+### Add Interface Files into Settings
 
 In order to use the interface files for `caffe` layer, you need to add the path of the folder `./resources`
 
@@ -56,7 +56,7 @@ export PYTHONPATH=$PYTHONPATH:~/<DEPN path>/resources
 source ~/.bashrc
 ```
 
-### Download the models of DEPN
+### Download the Models of DEPN
 
 There are two models you need to download for testing. `DEPN_init.caffemodel` saves the first-level parameters of DEPN, while `DEPN_sub.caffemodel` saves the parameters that can be shared by the second level and over.
 
@@ -65,7 +65,7 @@ wget https://drive.google.com/uc?id=1tE2FdfkvT2sJQu_VezVXqhgiNUY_yOZE&export=dow
 wget https://drive.google.com/file/d/16x_Y2qSk_ewQlHlN0d1ESp1ahQcBiDY7/view?usp=sharing -P ./models
 ```
 
-### Test and Generate Colorful Images
+## Test and Generate Colorful Images
 
 You can choose any image as a reference for the grayscale image, even a palette. Just simply execute `test.py` :
 
