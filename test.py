@@ -68,7 +68,7 @@ def generate(size):
         # if you need to use the small outcome to train the higher levels, please use the codes below:
         small_img_rgb=caffe.io.resize_image(img_rgb,(size/4,size/4))
         small_img_lab = color.rgb2lab(small_img_rgb)
-        small_img_l = small_img_rgb[:,:,0]
+        small_img_l = small_img_lgb[:,:,0]
         small_img_lab_out = np.concatenate((small_img_l[:,:,np.newaxis],ab_dec),axis=2)
         small_img_rgb_out = (255*np.clip(color.lab2rgb(small_img_lab_out),0,1)).astype('uint8')
         scipy.misc.toimage(small_img_rgb_out).save(sm_out)
