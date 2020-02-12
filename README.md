@@ -8,39 +8,41 @@
 
 * Linux
 * [Caffe](http://caffe.berkeleyvision.org/) & Pycaffe
-* Python 2 or 3
+* Python 2.7
 * Python libraries (numpy, skimage, scipy)
 
 ## Getting Started
 
 ### Compile Caffe
 
-* copy two files `softmax_cross_entropy_loss_layer.cpp` and `softmax_cross_entropy_loss_layer.cu` under the folder `./resources` into `<your caffe path>/caffe/src/caffe/layers/`
+**Note: If you don't need to train this model (only test it), you can skip step 1 and 2 below and directly compile the original version of caffe, i.e., you don't have to copy and paste the files mentioned in step 1 and 2.**
 
-* copy the file `softmax_cross_entropy_loss_layer.hpp` under the folder `./resources` into `<your caffe path>/caffe/include/caffe/layers`
+1. copy two files `softmax_cross_entropy_loss_layer.cpp` and `softmax_cross_entropy_loss_layer.cu` under the folder `./resources` into `<your caffe path>/caffe/src/caffe/layers/`
 
-* Note that you also need to compile `pycaffe` and add it into  your `PYTHONPATH`:
+2. copy the file `softmax_cross_entropy_loss_layer.hpp` under the folder `./resources` into `<your caffe path>/caffe/include/caffe/layers`
 
-  ```bash
-  vi ~/.bashrc
-  
-  # add the two lines into the file
-  PYTHONPATH=<you caffe path>/caffe/python:$PYTHONPATH
-  LD_LIBRARY_PATH=<you caffe path>/caffe/build/lib:$LD_LIBRARY_PATH
-  
-  # save and update the environment
-  source ~/.bashrc
-  ```
+3. Note that you also need to compile `pycaffe` and add it into  your `PYTHONPATH`:
 
-* compile and test `caffe`:
+   ```shell
+   vi ~/.bashrc
+   
+   # add the two lines into the file
+   PYTHONPATH=<you caffe path>/caffe/python:$PYTHONPATH
+   LD_LIBRARY_PATH=<you caffe path>/caffe/build/lib:$LD_LIBRARY_PATH
+   
+   # save and update the environment
+   source ~/.bashrc
+   ```
 
-  ```bash
-  # execute under the root directory of caffe
-  make clean # clean the files complied before
-  
-  make all -j8
-  make test -j8
-  ```
+4. compile and test `caffe`:
+
+   ```shell
+   # execute under the root directory of caffe
+   make clean # clean the files complied before
+   
+   make all
+   make test
+   ```
 
 ### Add Interface Files into Settings
 
@@ -58,12 +60,14 @@ source ~/.bashrc
 
 ### Download the Models of DEPN
 
-There are two models you need to download for testing or training. `DEPN_init.caffemodel` saves the first-level parameters of DEPN, while `DEPN_sub.caffemodel` provides the shared parameters used by the second level and over.
+There are two models you need to download for testing or training. `DEPN_init.caffemodel` saves the first-level parameters of DEPN, while `DEPN_sub.caffemodel` provides the shared parameters used by the second level and over. For convenient connection, we provide both of OneDrive and Google Drive links for downloading. **Please put the two models under the file folder `./models`.** 
 
-```bash
-wget https://drive.google.com/uc?id=1tE2FdfkvT2sJQu_VezVXqhgiNUY_yOZE&export=download -P ./models
-wget https://drive.google.com/file/d/16x_Y2qSk_ewQlHlN0d1ESp1ahQcBiDY7/view?usp=sharing -P ./models
-```
+* Google Drive links
+  * [DEPN_init.caffemodel](https://drive.google.com/uc?id=1tE2FdfkvT2sJQu_VezVXqhgiNUY_yOZE&export=download)
+  * [DEPN_sub.caffemodel](https://drive.google.com/uc?id=16x_Y2qSk_ewQlHlN0d1ESp1ahQcBiDY7&export=download)
+* Alternatively, OneDrive links:
+  * [DEPN_init.caffemodel](https://portland-my.sharepoint.com/:u:/g/personal/chufexiao2-c_ad_cityu_edu_hk/EeXiJOT0wBNJnAeOfmAmhu4BAltVr1T8csu8d138GMT1kQ?e=lekuuS)
+  * [DEPN_sub.caffemodel](https://portland-my.sharepoint.com/:u:/g/personal/chufexiao2-c_ad_cityu_edu_hk/ESipk040jYRKvVRF-8QGB4gBMqU41cKo9Osi1iN1ttBZAw?e=40zdkG)
 
 ## Test and Generate Colorful Images
 
@@ -181,4 +185,8 @@ Execute `sh ./models/train/train_DEPN.sh` to start training. You maybe need to c
 ```
 <Your install path>/caffe/build/tools/caffe train -solver ./models/train/solver.prototxt -gpu 0 -weights ./models/DEPN_init.caffemodel
 ```
+
+## Acknowledgement
+
+Part of the code is based on [**Colorful Image Colorization**](https://github.com/richzhang/colorization).
 
